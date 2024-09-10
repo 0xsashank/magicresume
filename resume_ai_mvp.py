@@ -93,12 +93,28 @@ Please generate a concise, {tone}-style resume based on the provided information
         if not self.api_key:
             raise ValueError("OpenAI API key not found in environment variables.")
         client = OpenAI(api_key=self.api_key)
-        prompt = f"""Given the following job description, summarize the most relevant skills and qualifications:
+        prompt = f"""Conduct a thorough analysis of the following job description to extract the most important skills and qualifications:
 
 Job Description:
 {job_description}
 
-Please provide a concise list of the top 5-7 most relevant skills or qualifications for this position."""
+Please provide your analysis in the following format:
+
+1. Skills Assessment:
+   - List up to 7 skills explicitly mentioned in the job description.
+   - For each skill, provide a brief quote or reference from the job description that mentions this skill.
+   - Categorize each skill as either Technical, Soft, or Domain-Specific.
+
+2. Qualifications Summary:
+   - List any specific qualifications, certifications, or education requirements explicitly mentioned.
+   - Provide a direct quote for each qualification requirement.
+   - Indicate whether each is described as mandatory or preferred in the job description.
+
+3. Top 5 Critical Components:
+   - Based on frequency of mention and emphasis in the job description, list the 5 most critical skills or qualifications for this role.
+   - For each, provide a brief explanation referencing specific parts of the job description that highlight its importance.
+
+Ensure your analysis is based solely on information explicitly stated in the job description, avoiding any assumptions or inferences not directly supported by the text."""
 
         try:
             response = client.chat.completions.create(
